@@ -69,13 +69,13 @@ refresh=setTimeout("action()",speed);}action();
             <td class="col-sm-4">
               <select class="form-control" name="itemPO[]">
                 <?php
-                  $sql1 = "SELECT * FROM item_list";
+                  $sql1 = "SELECT * FROM locator";
                   $hasil = mysqli_query($conn, $sql1);
                   $no=0;
                   while ($data = mysqli_fetch_array($hasil)) {
                     $no++;
                     ?>
-                    <option name="locationPO[]" value="<?php echo $data['item'];?>"><?php echo $data['item']; ?></option>
+                    <option name="locationPO[]" value="<?php echo $data['locator'];?>"><?php echo $data['locator']; ?></option>
                     <?php
                   }
 
