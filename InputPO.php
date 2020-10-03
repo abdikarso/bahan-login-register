@@ -2,6 +2,22 @@
 
 $conn = mysqli_connect("localhost","root","","suj_catalog");
 ?>
+<?php
+session_start();
+
+//cek apakah user sudah login
+if(!isset($_SESSION['username']))
+{
+header("location:index.php?pesan=gagal");
+
+}
+
+//cek level user
+if($_SESSION['level']!="admin")
+{
+header("location:index.php?pesan=gagallevel");
+}
+?>
 <script language='JavaScript'>
 var txt="Technical Project - Catalog - ";
 var speed=200;
@@ -11,32 +27,52 @@ txt=txt.substring(1,txt.length)+txt.charAt(0);
 refresh=setTimeout("action()",speed);}action();
 </script>
 <link rel="icon" type="image/png" href="icon.jpg">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <!------ Include the above in your HEAD tag ---------->
-<div class="container">
+  <nav class="navbar bg-info" style="height:60px;">
+    <div class="container-fluid">
+      <div class="col-sm">
+        <div class="navbar-header">
+          <h4 class="text-light">Welcome to Technical Project Departement</h4>
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="index.php"  class="text-light"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+  <br>
+  <div class="container-fluid">
   <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
     <table id="myTable" class=" table order-list">
-    <thead>
-        <tr style="vertical-align: middle;" align="center">
-            <td>No. PO</td>
-            <td>Item</td>
-            <td>Location</td>
-            <td>Qty</td>
-            <td>Delivered By</td>
+    <thead class="table-active">
+        <tr class="table-active" style="vertical-align: middle;" align="center">
+            <th scope="col">No. PO</td>
+            <th scope="col">Item</td>
+            <th scope="col">Location</td>
+            <th scope="col">Qty</td>
+            <th scope="col">Delivered By</td>
+            <th scope="col">Option</td>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td class="col-sm-4">
+            <td class="">
                 <input type="text" name="po[]" class="form-control" />
             </td>
-            <td class="col-sm-4">
+            <td class="">
                 <input type="text" name="itemPO[]"  class="form-control"/>
             </td>
-            <td class="col-sm-3">
-                <select class="form-control" name="locationPO[]">
+            <td class="">
+                <select style="width:fill; height:auto;" class="form-control" name="locationPO[]">
                   <?php
                     $sql1 = "SELECT * FROM locator";
                     $hasil = mysqli_query($conn, $sql1);
@@ -52,20 +88,20 @@ refresh=setTimeout("action()",speed);}action();
 
                 </select>
             </td>
-            <td class="col-sm-4">
+            <td class="">
                 <input type="number" name="qtyPO[]"  class="form-control"/>
             </td>
-            <td class="col-sm-4">
-                <input type="text" name="userPO[]"  class="form-control"/>
+            <td class="">
+                <input type="text" name="userPO[]"  class="form-control" value="<?php echo $_SESSION['username'] ?>"/>
             </td>
-            <td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>
+            <td align="center"><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>
 
             </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5" style="text-align: left;">
+            <td colspan="6" style="text-align: left;">
                 <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
             </td>
         </tr>
@@ -135,3 +171,13 @@ function calculateGrandTotal() {
   $("#grandtotal").text(grandTotal.toFixed(2));
 }
 </script>
+<hr>
+
+<div class="container">
+  <p>Layout yang akan direview !</p>
+  <a href="Index.php"><button type="button" class="btn-primary">Halaman Awal</button></a>
+    <a href="InputPo.php"><button type="button" class="btn-primary">Form Input PO</button></a>
+      <a href="OutPo.php"><button type="button" class="btn-primary">Form Out PO</button></a>
+        <a href="List.php"><button type="button" class="btn-primary">Form List PO</button></a>
+          <a href="cek_out.php"><button type="button" class="btn-primary">Log Out</button></a>
+  </div>
